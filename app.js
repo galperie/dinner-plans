@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -18,9 +20,32 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var db;
+var databaseUrl = "mongodb://localhost:27017/dinnerplans";
+if (process.env.NODE_ENV === 'production') {
+    databaseUrl= process.env.MONGOLAB_URI;
+}
+
+mongodb.MongoClient.connect(databaseUrl, function (err, database) {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
+
+  // Save database object from the callback for reuse.
+  db = database;
+  console.log("Database connection ready");
+});
+
+// Make our db accessible to our router
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
 
 app.use('/', index);
 app.use('/users', users);
@@ -30,6 +55,7 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+  db.close();
 });
 
 // error handler
