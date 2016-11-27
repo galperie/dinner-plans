@@ -19,15 +19,15 @@ block content
                     data-parent="#accordion", href="#collapse#{i}", aria-expanded="false",
                     aria-controls="collapse#{i}") #{dish.name}
             
-                .panel-collapse(id="collapse#{i}", role="tabpanel", aria-labelledby="heading#{i}")
+                .panel-collapse.collapse(id="collapse#{i}", role="tabpanel", aria-labelledby="heading#{i}")
                   .list-group
-                    | #{dish.ingredients}
+                    | Ingredients: #{dish.ingredients}
                   .list-group
-                    | #{dish.person}
+                    | Person in charge: #{dish.person}
                   .list-group
                     | #{dish.link}
                   .list-group
-                    | #{dish.done}
+                    | Done? #{dish.done}
                 
     #add-dish.container 
       a.btn.btn-default(role="button" href="/dish") Add Dish
