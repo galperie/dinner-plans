@@ -6,6 +6,10 @@
     "dev": "nodemon start.js",
     "start": "node start.js"
   },
+  "engines": {
+    "node": "6.9.1",
+    "npm": "3.10.8"
+  },
   "dependencies": {
     "body-parser": "~1.15.2",
     "bootstrap": "^3.3.7",
