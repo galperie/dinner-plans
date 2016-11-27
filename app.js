@@ -30,7 +30,7 @@ var db;
 var databaseUrl = "mongodb://localhost:27017/dinnerplans";
 if (process.env.NODE_ENV === 'production') {
     console.log("PRODUCTION MODE");
-    databaseUrl= process.env.MONGOLAB_URI;
+    databaseUrl= process.env.MONGODB_URI;
 }
 
 console.log("database URL: " + databaseUrl);
