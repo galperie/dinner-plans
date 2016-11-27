@@ -7,26 +7,27 @@ block content
 
     .container
     
-      each dish, i in dishes
+      #dishes.container
+        .panel-group#accordion(role="tablist", aria-multiselectable="true")
+        
+          each dish, i in dishes
+              
+              .panel.panel-default
+                .panel-heading(role="tab", id="heading#{i}")
+                  h4.panel-title
+                    a(role="button", data-toggle="collapse", 
+                    data-parent="#accordion", href="#collapse#{i}", aria-expanded="false",
+                    aria-controls="collapse#{i}") #{dish.name}
             
-        #dishes.container
-          .panel-group#accordion(role="tablist", aria-multiselectable="true")
-            .panel.panel-default
-              .panel-heading#headingOne(type="role")
-                h4.panel-title
-                  a(role="button", data-toggle="collapse", 
-                  data-parent="#accordion", href="#collapseOne", aria-expanded="false", 
-                  aria-controls="collapseOne") #{dish.name}
-          
-              .panel-collapse.collapse#collapseOne(role="tabpanel", aria-labelledby="headingOne")
-                .list-group
-                  | #{dish.ingredients}
-                .list-group
-                  | #{dish.person}
-                .list-group
-                  | #{dish.link}
-                .list-group
-                  | #{dish.done}
+                .panel-collapse(id="collapse#{i}", role="tabpanel", aria-labelledby="heading#{i}")
+                  .list-group
+                    | #{dish.ingredients}
+                  .list-group
+                    | #{dish.person}
+                  .list-group
+                    | #{dish.link}
+                  .list-group
+                    | #{dish.done}
                 
-        #add-dish.container 
-          a.btn.btn-default(role="button" href="/dish") Add Dish
+    #add-dish.container 
+      a.btn.btn-default(role="button" href="/dish") Add Dish

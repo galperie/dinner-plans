@@ -19,7 +19,15 @@ router.get('/dish', function(req, res, next) {
 });
 
 router.post('/dish', (req, res) => {
-  console.log(req.body);
+  var newDish = req.body;
+
+  req.db.collection("dishes").insertOne(newDish, function(err, doc) {
+    if (err) {
+      handleError(res, err.message, "Failed to create new contact.");
+    } else {
+      res.status(201).json(doc.ops[0]);
+    }
+  });
 })
 
 
