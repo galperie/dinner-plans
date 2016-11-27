@@ -24,11 +24,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/************************************************/
+
 var db;
 var databaseUrl = "mongodb://localhost:27017/dinnerplans";
 if (process.env.NODE_ENV === 'production') {
+    console.log("PRODUCTION MODE");
     databaseUrl= process.env.MONGOLAB_URI;
 }
+
+console.log("database URL: " + databaseUrl);
 
 mongodb.MongoClient.connect(databaseUrl, function (err, database) {
   if (err) {
@@ -46,6 +51,8 @@ app.use(function(req,res,next){
     req.db = db;
     next();
 });
+
+/************************************************/
 
 app.use('/', index);
 app.use('/users', users);
